@@ -8,12 +8,13 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 class HomeAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
     private val fragmentList = mutableListOf<Fragment>()
     private val fragmentTitleList = mutableListOf<String>()
+    private val TAG = "HomeAdapter"
 
     fun addFragment(fragment: Fragment, title: String) {
         fragmentList.add(fragment)
         fragmentTitleList.add(title)
         notifyDataSetChanged()
-        Log.d("MainViewPagerAdapter", "Added fragment with title: $title")
+        Log.d(TAG, "Added fragment with title: $title")
     }
 
     override fun getItemCount(): Int {
