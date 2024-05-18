@@ -1,15 +1,16 @@
 package com.ali.studybuddy.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import com.ali.studybuddy.R
 import com.ali.studybuddy.databinding.FragmentHomeBinding
+import com.ali.studybuddy.ui.activity.AddSubjectActivity
 import com.ali.studybuddy.ui.adapter.HomeAdapter
 import com.ali.studybuddy.util.AppConstants
 import com.google.android.material.tabs.TabLayout
@@ -22,6 +23,7 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: HomeAdapter
     private lateinit var binding: FragmentHomeBinding
     private lateinit var navController: NavController
+    private var day: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,11 +34,20 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // navController = Navigation.findNavController(requireActivity(), R.id.view_pager)
         setUpTabs()
 
-        val tabName = getTabName()
-        if (tabName == AppConstants.MONDAY) startFragment(AppConstants.MONDAY)
+        binding.addSubjectFab.setOnClickListener {
+            navigateToAddSubjectActivity()
+        }
+
+        day = getTabName()
+        if (day == AppConstants.MONDAY) startFragment(day!!)
+    }
+
+    private fun navigateToAddSubjectActivity() {
+        val intent = Intent(context, AddSubjectActivity::class.java)
+        intent.putExtra(AppConstants.DAY, day)
+        startActivity(intent)
     }
 
     private fun startFragment(day: String) {
@@ -69,7 +80,5 @@ class HomeFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = adapter.getTitle(position)
         }.attach()
-
-        // adapter.notifyDataSetChanged()
     }
 }
