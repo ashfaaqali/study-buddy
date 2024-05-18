@@ -43,6 +43,7 @@ class AddSubjectActivity : AppCompatActivity() {
 
                 subjectViewModel.onAction(
                     AddSubjectActions.SaveSubject(
+                        day,
                         subjectName,
                         subjectRequiredAttendance,
                         classTime

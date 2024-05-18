@@ -36,6 +36,7 @@ class SubjectViewModel(application: Application) : AndroidViewModel(application)
             is AddSubjectActions.SaveSubject -> {
                 if (action.name.isNotEmpty()) {
                     saveSubjectDetailsToDb(
+                        action.day,
                         action.name,
                         action.requiredAttendance,
                         action.timeInMillis
@@ -47,9 +48,9 @@ class SubjectViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    private fun saveSubjectDetailsToDb(name: String, requiredAttendance: Int?, timeInMillis: Long?) {
+    private fun saveSubjectDetailsToDb(day: String, name: String, requiredAttendance: Int?, timeInMillis: Long?) {
         viewModelScope.launch {
-            val subject = SubjectModel(0, name, requiredAttendance, timeInMillis)
+            val subject = SubjectModel(0, day, name, requiredAttendance, timeInMillis)
             subjectRepository.addSubject(subject)
         }
     }
@@ -70,6 +71,7 @@ sealed class AddSubjectEvents {
 sealed class AddSubjectActions {
     data object TimePickerClicked : AddSubjectActions()
     data class SaveSubject(
+        val day: String,
         val name: String,
         val requiredAttendance: Int?,
         val timeInMillis: Long?

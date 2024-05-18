@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class SubjectModel (
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+    val day: String,
     val subjectName: String,
     val requiredAttendance: Int?,
     val timeOfClass: Long?
