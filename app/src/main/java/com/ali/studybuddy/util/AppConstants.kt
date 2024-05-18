@@ -8,4 +8,5 @@ object AppConstants {
     const val FRIDAY = "friday"
     const val SATURDAY = "saturday"
     const val DAY = "day_"
+    const val MIN_DISTANCE = 150
 }
