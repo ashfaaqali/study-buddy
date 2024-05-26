@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.ui.setupWithNavController
 import com.ali.studybuddy.R
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.ali.studybuddy.databinding.ActivityMainBinding
 import com.ali.studybuddy.ui.fragments.BuddyFragment
 import com.ali.studybuddy.ui.fragments.HomeFragment
@@ -20,6 +23,10 @@ class MainActivity : AppCompatActivity() {
 
         setFragment(HomeFragment())
         handleBackPress()
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.bottomNavigation.setupWithNavController(navController)
 
         // Handle bottom navigation item selection
         binding.bottomNavigation.setOnItemSelectedListener { item ->

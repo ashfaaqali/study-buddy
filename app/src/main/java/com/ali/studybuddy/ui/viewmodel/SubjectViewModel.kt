@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 
 class SubjectViewModel(application: Application) : AndroidViewModel(application) {
     val getAllSubjects: LiveData<List<SubjectModel>>
+    // val getSubjectsForTheDay: LiveData<List<SubjectModel>>
     private val subjectRepository: SubjectRepository
     private val _events = MutableLiveData<AddSubjectEvents>()
     val events: LiveData<AddSubjectEvents> get() = _events
@@ -21,6 +22,7 @@ class SubjectViewModel(application: Application) : AndroidViewModel(application)
         val subjectDao = AppDatabase.getDatabase(application).subjectDao()
         subjectRepository = SubjectRepository(subjectDao)
         getAllSubjects = subjectRepository.getAllSubjects()
+        // getSubjectsForTheDay = subjectRepository.getSubjectsForTheDay()
     }
 
     fun onAction(action: AddSubjectActions) {
@@ -58,6 +60,11 @@ class SubjectViewModel(application: Application) : AndroidViewModel(application)
     fun updateFormattedTime(formattedTime: String, timeInMillis: Long) {
         _events.value = AddSubjectEvents.ShowFormattedTime(formattedTime, timeInMillis)
     }
+
+    fun getSubjectsForDay(day: String): LiveData<List<SubjectModel>> {
+        return subjectRepository.getSubjectsForTheDay(day)
+    }
+
 }
 
 sealed class AddSubjectEvents {

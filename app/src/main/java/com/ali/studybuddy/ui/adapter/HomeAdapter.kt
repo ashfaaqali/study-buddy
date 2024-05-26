@@ -14,7 +14,7 @@ class HomeAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
         fragmentList.add(fragment)
         fragmentTitleList.add(title)
         notifyDataSetChanged()
-        Log.d(TAG, "Added fragment with title: $title")
+        // Log.d(TAG, "Added fragment with title: $title")
     }
 
     override fun getItemCount(): Int {

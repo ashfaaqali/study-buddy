@@ -3,27 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/buddyFragment">
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.ali.studybuddy.ui.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_dayFragment"
+            app:destination="@id/dayFragment" />
+        <argument
+            android:name="currentTab"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dayFragment"
+        android:name="com.ali.studybuddy.ui.fragments.DayFragment"
+        android:label="Day"
+        tools:layout="@layout/fragment_day">
+        <action
+            android:id="@+id/action_dayFragment_to_dayFragment"
+            app:destination="@id/dayFragment" />
+        <argument
+            android:name="currentTab"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/buddyFragment"
         android:name="com.ali.studybuddy.ui.fragments.BuddyFragment"
         android:label="fragment_buddy"
         tools:layout="@layout/fragment_buddy" />
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.ali.studybuddy.ui.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_dayFragment"
-            app:destination="@id/dayFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/dayFragment"
-        android:name="com.ali.studybuddy.ui.fragments.DayFragment"
-        android:label="fragment_day"
-        tools:layout="@layout/fragment_day" />
+
     <fragment
         android:id="@+id/moreFragment"
         android:name="com.ali.studybuddy.ui.fragments.MoreFragment"

@@ -10,6 +10,10 @@ class SubjectRepository(private val subjectDao: SubjectDAO) {
         return subjectDao.getAllSubjects()
     }
 
+    fun getSubjectsForTheDay(day: String): LiveData<List<SubjectModel>> {
+        return subjectDao.getSubjectsForTheDay(day)
+    }
+
     suspend fun addSubject(subject: SubjectModel) {
         subjectDao.addSubject(subject)
     }
