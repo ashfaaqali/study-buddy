@@ -12,9 +12,10 @@ import com.ali.studybuddy.databinding.SubjectItemBinding
 
 class DayAdapter(private val context: Context, private var subjectList: List<SubjectModel>) :
     RecyclerView.Adapter<ViewHolder>() {
+    var clickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView  = SubjectItemBinding.inflate(LayoutInflater.from(context), parent, false)
+        val itemView = SubjectItemBinding.inflate(LayoutInflater.from(context), parent, false)
         return SubjectViewHolder(itemView)
     }
 
@@ -30,10 +31,14 @@ class DayAdapter(private val context: Context, private var subjectList: List<Sub
         val classTime: TextView = viewHolder.itemView.findViewById(R.id.subject_time)
 
         name.text = subject.subjectName
-        if (subject.timeOfClass != null){
+        if (subject.timeOfClass != null) {
             classTime.text = subject.timeOfClass.toString()
         } else {
             classTime.text = "Class time not set"
+        }
+
+        viewHolder.itemView.setOnClickListener {
+            clickListener?.onItemClickListener(subject.subjectName, subject.day)
         }
 
         // More....
@@ -44,5 +49,9 @@ class DayAdapter(private val context: Context, private var subjectList: List<Sub
         notifyDataSetChanged()
     }
 
-     inner class SubjectViewHolder(binding: SubjectItemBinding) : ViewHolder(binding.root)
+    inner class SubjectViewHolder(binding: SubjectItemBinding) : ViewHolder(binding.root)
+}
+
+interface OnItemClickListener {
+    fun onItemClickListener(subjectName: String, day: String)
 }

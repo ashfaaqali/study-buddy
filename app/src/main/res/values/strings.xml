@@ -5,4 +5,10 @@
     <string name="home">Home</string>
     <string name="buddy">Buddy</string>
     <string name="more">More</string>
+
+    <string-array name="attendance_options">
+        <item>Mark Present</item>
+        <item>Mark Absent</item>
+        <item>Mark Cancelled</item>
+    </string-array>
 </resources>

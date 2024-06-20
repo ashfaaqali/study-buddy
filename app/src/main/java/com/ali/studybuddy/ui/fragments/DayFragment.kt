@@ -1,25 +1,25 @@
 package com.ali.studybuddy.ui.fragments
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ali.studybuddy.databinding.FragmentDayBinding
 import com.ali.studybuddy.ui.adapter.DayAdapter
+import com.ali.studybuddy.ui.adapter.OnItemClickListener
+import com.ali.studybuddy.ui.bottomsheet.SubjectInfoBottomSheet
 import com.ali.studybuddy.ui.viewmodel.SharedViewModel
 import com.ali.studybuddy.ui.viewmodel.SubjectViewModel
 
 class DayFragment : Fragment() {
+    private val subjectInfoBottomSheet by lazy {
+        SubjectInfoBottomSheet()
+    }
     private val TAG = "DayFragment"
     private lateinit var binding: FragmentDayBinding
     private val viewModel: SubjectViewModel by viewModels()
@@ -42,7 +42,12 @@ class DayFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        adapter.clickListener = object : OnItemClickListener {
+            override fun onItemClickListener(subjectName: String, day: String) {
+                val subjectInfoBottomSheet = subjectInfoBottomSheet.newInstance(subjectName, day)
+                subjectInfoBottomSheet.show(parentFragmentManager, "Tag")
+            }
+        }
         Log.d(TAG, "onViewCreated: Test")
         sharedViewModel.currentTabTitle.observe(viewLifecycleOwner) { title ->
             Log.d(TAG, "onViewCreated: currentTab $title")

@@ -1,0 +1,195 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="18dp">
+
+    <!-- First Row - First Column -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/firstRowFirstColumn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/secondRowFirstColumn"
+            app:layout_constraintEnd_toStartOf="@+id/firstRowSecondColumn"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/countPresentClasses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="79"
+                android:textColor="#4CAF50"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textPresentClasses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Present Classes"
+                android:textColor="#4CAF50"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- First Row - Second Column -->
+        <LinearLayout
+            android:id="@+id/firstRowSecondColumn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/firstRowFirstColumn"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/countAbsentClasses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="103"
+                android:textColor="@color/red"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textAbsentClasses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Absent Classes"
+                android:textColor="@color/red"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Second Row - First Column -->
+        <LinearLayout
+            android:id="@+id/secondRowFirstColumn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="18dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/secondRowSecondColumn"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/firstRowFirstColumn">
+
+            <TextView
+                android:id="@+id/countCancelledClasses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="54"
+                android:textColor="@color/purple"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textCancelledClasses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancelled Classes"
+                android:textColor="@color/purple"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Second Row - Second Column -->
+        <LinearLayout
+            android:id="@+id/secondRowSecondColumn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/secondRowFirstColumn"
+            app:layout_constraintTop_toBottomOf="@+id/firstRowSecondColumn">
+
+            <TextView
+                android:id="@+id/countTotalClasses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="200"
+                android:textColor="@color/blue"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textTotalClasses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Classes"
+                android:textColor="@color/blue"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:layout_marginHorizontal="8dp"
+        android:orientation="horizontal">
+
+    <!-- Drop-down menu -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dropdown_menu"
+        android:layout_width="0dp"
+        android:layout_weight="0.7"
+        android:layout_marginEnd="6dp"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/ic_mark_attendance"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="none"
+            android:text="Mark Present"
+            android:hint="Mark attendance"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Submit Button -->
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="0dp"
+        android:layout_weight="0.4"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/primary"
+        android:layout_marginStart="6dp"
+        android:text="Submit"
+        android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>
