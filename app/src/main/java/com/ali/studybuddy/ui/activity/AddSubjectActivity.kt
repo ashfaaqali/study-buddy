@@ -2,6 +2,7 @@ package com.ali.studybuddy.ui.activity
 
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -49,6 +50,7 @@ class AddSubjectActivity : AppCompatActivity() {
                         classTime
                     )
                 )
+                finish()
             }
         }
     }
