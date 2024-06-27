@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var sharedViewModel: SharedViewModel
     private val TAG = "HomeFragment"
-    private var day: String? = null
+    // private var day: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,21 +39,14 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setUpTabs()
-        if (savedInstanceState == null) {
-            // Set default tab to be selected
-            tabLayout.getTabAt(0)?.select()
-            day = getTabName()
-            Log.d(TAG, "onViewCreated: Day: $day")
-            sharedViewModel.setCurrentTabTitle(day ?: "Monday")  // Default to Monday if day is null
-        }
-        day = getTabName()
-        // Log.d(TAG, "onViewCreated: Day: $day")
+
         binding.addSubjectFab.setOnClickListener {
-            navigateToAddSubjectActivity()
+            val day = getTabName()
+            navigateToAddSubjectActivity(day)
         }
     }
 
-    private fun navigateToAddSubjectActivity() {
+    private fun navigateToAddSubjectActivity(day: String) {
         val intent = Intent(context, AddSubjectActivity::class.java)
         intent.putExtra(AppConstants.DAY, day)
         startActivity(intent)
@@ -91,13 +84,12 @@ class HomeFragment : Fragment() {
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = adapter.getTitle(position)
-            Log.d(TAG, "setUpTabs: TabLayoutMediator: ${tab.text}")
         }.attach()
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 Log.d(TAG, "setUpTabs: onTabSelectedListener: ${tab.text.toString()}")
-                 sharedViewModel.setCurrentTabTitle(tab.text.toString())
+                sharedViewModel.setCurrentTabTitle(tab.text.toString())
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
