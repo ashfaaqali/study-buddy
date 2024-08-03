@@ -5,25 +5,28 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.ali.studybuddy.data.model.SubjectModel
 import com.ali.studybuddy.databinding.ActivityAddSubjectBinding
-import com.ali.studybuddy.ui.viewmodel.AddSubjectActions
-import com.ali.studybuddy.ui.viewmodel.AddSubjectEvents
-import com.ali.studybuddy.ui.viewmodel.SubjectViewModel
+import com.ali.studybuddy.viewmodel.AddSubjectActions
+import com.ali.studybuddy.viewmodel.AddSubjectEvents
+import com.ali.studybuddy.viewmodel.SubjectViewModel
 import com.ali.studybuddy.util.AppConstants
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@AndroidEntryPoint
 class AddSubjectActivity : AppCompatActivity() {
     private var timeInMillieSeconds = 0L
     private lateinit var binding: ActivityAddSubjectBinding
-    private lateinit var subjectViewModel: SubjectViewModel
+    private val subjectViewModel: SubjectViewModel by viewModels()
     private lateinit var day: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddSubjectBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        subjectViewModel = SubjectViewModel(application)
+        // subjectViewModel = SubjectViewModel(application)
 
         handleIntentData() // Handle the intent data
 

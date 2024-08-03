@@ -13,9 +13,11 @@ import com.ali.studybuddy.databinding.FragmentDayBinding
 import com.ali.studybuddy.ui.adapter.DayAdapter
 import com.ali.studybuddy.ui.adapter.OnItemClickListener
 import com.ali.studybuddy.ui.bottomsheet.SubjectInfoBottomSheet
-import com.ali.studybuddy.ui.viewmodel.SharedViewModel
-import com.ali.studybuddy.ui.viewmodel.SubjectViewModel
+import com.ali.studybuddy.viewmodel.SharedViewModel
+import com.ali.studybuddy.viewmodel.SubjectViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DayFragment : Fragment() {
     private val subjectInfoBottomSheet by lazy {
         SubjectInfoBottomSheet()
@@ -43,17 +45,18 @@ class DayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         adapter.clickListener = object : OnItemClickListener {
-            override fun onItemClickListener(subjectName: String, day: String) {
-                val subjectInfoBottomSheet = subjectInfoBottomSheet.newInstance(subjectName, day)
+            override fun onItemClickListener(subjectId: Long, day: String) {
+                val subjectInfoBottomSheet = subjectInfoBottomSheet.newInstance(subjectId, day)
                 subjectInfoBottomSheet.show(parentFragmentManager, "Tag")
             }
         }
-        Log.d(TAG, "onViewCreated: Test")
+
         sharedViewModel.currentTabTitle.observe(viewLifecycleOwner) { title ->
-            Log.d(TAG, "onViewCreated: currentTab $title")
             viewModel.getSubjectsForDay(title).observe(viewLifecycleOwner) { subjects ->
-                Log.d(TAG, "onViewCreated: Data for $title: $subjects")
                 adapter.updateData(subjects)
+                for (i in subjects){
+                    Log.d("DayFragment", "Subject : $i")
+                }
             }
         }
     }

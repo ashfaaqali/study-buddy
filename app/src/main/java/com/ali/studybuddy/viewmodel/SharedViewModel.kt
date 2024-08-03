@@ -1,4 +1,4 @@
-package com.ali.studybuddy.ui.viewmodel
+package com.ali.studybuddy.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

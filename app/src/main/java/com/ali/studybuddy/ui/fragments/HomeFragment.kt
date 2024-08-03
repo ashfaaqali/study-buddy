@@ -13,7 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ali.studybuddy.databinding.FragmentHomeBinding
 import com.ali.studybuddy.ui.activity.AddSubjectActivity
 import com.ali.studybuddy.ui.adapter.HomeAdapter
-import com.ali.studybuddy.ui.viewmodel.SharedViewModel
+import com.ali.studybuddy.viewmodel.SharedViewModel
 import com.ali.studybuddy.util.AppConstants
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator

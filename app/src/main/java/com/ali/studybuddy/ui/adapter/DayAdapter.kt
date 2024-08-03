@@ -38,7 +38,7 @@ class DayAdapter(private val context: Context, private var subjectList: List<Sub
         }
 
         viewHolder.itemView.setOnClickListener {
-            clickListener?.onItemClickListener(subject.subjectName, subject.day)
+            clickListener?.onItemClickListener(subject.id, subject.day)
         }
 
         // More....
@@ -53,5 +53,5 @@ class DayAdapter(private val context: Context, private var subjectList: List<Sub
 }
 
 interface OnItemClickListener {
-    fun onItemClickListener(subjectName: String, day: String)
+    fun onItemClickListener(subjectId: Long, day: String)
 }

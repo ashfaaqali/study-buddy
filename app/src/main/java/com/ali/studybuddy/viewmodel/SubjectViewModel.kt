@@ -1,4 +1,4 @@
-package com.ali.studybuddy.ui.viewmodel
+package com.ali.studybuddy.viewmodel
 
 import android.app.Application
 import android.icu.util.Calendar
@@ -6,24 +6,26 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ali.studybuddy.data.database.AppDatabase
+import androidx.lifecycle.liveData
 import com.ali.studybuddy.data.model.SubjectModel
 import com.ali.studybuddy.data.repository.SubjectRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SubjectViewModel(application: Application) : AndroidViewModel(application) {
-    val getAllSubjects: LiveData<List<SubjectModel>>
-    // val getSubjectsForTheDay: LiveData<List<SubjectModel>>
+@HiltViewModel
+class SubjectViewModel @Inject constructor(
+    application: Application,
     private val subjectRepository: SubjectRepository
+) :
+    AndroidViewModel(application) {
+
+    // Using liveData builder to handle the suspend function
+    val getAllSubjects: LiveData<List<SubjectModel>> = liveData {
+        emit(subjectRepository.getAllSubjects())
+    }
     private val _events = MutableLiveData<AddSubjectEvents>()
     val events: LiveData<AddSubjectEvents> get() = _events
-
-    init {
-        val subjectDao = AppDatabase.getDatabase(application).subjectDao()
-        subjectRepository = SubjectRepository(subjectDao)
-        getAllSubjects = subjectRepository.getAllSubjects()
-        // getSubjectsForTheDay = subjectRepository.getSubjectsForTheDay()
-    }
 
     fun onAction(action: AddSubjectActions) {
         when (action) {
@@ -50,10 +52,30 @@ class SubjectViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    private fun saveSubjectDetailsToDb(day: String, name: String, requiredAttendance: Int?, timeInMillis: Long?) {
+    private fun saveSubjectDetailsToDb(
+        day: String,
+        name: String,
+        requiredAttendance: Int?,
+        timeInMillis: Long?
+    ) {
         viewModelScope.launch {
-            val subject = SubjectModel(0, day, name, requiredAttendance, timeInMillis)
-            subjectRepository.addSubject(subject)
+            try {
+                val subject = SubjectModel(
+                    id = 0,
+                    day = day,
+                    subjectName = name,
+                    presentCount = 0,
+                    absentCount = 0,
+                    cancelledCount = 0,
+                    requiredAttendance = requiredAttendance,
+                    timeOfClass = timeInMillis
+                )
+                subjectRepository.addSubject(subject)
+                _events.value = AddSubjectEvents.ShowToast("Subject saved successfully")
+            } catch (e: Exception) {
+                // Added error handling to catch and display any exceptions that occur during the database operation
+                _events.value = AddSubjectEvents.ShowToast("Error saving subject: ${e.message}")
+            }
         }
     }
 
@@ -62,7 +84,9 @@ class SubjectViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun getSubjectsForDay(day: String): LiveData<List<SubjectModel>> {
-        return subjectRepository.getSubjectsForTheDay(day)
+        return liveData {
+            emit(subjectRepository.getSubjectsForTheDay(day))
+        }
     }
 
 }

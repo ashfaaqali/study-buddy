@@ -12,7 +12,9 @@ import com.ali.studybuddy.databinding.ActivityMainBinding
 import com.ali.studybuddy.ui.fragments.BuddyFragment
 import com.ali.studybuddy.ui.fragments.HomeFragment
 import com.ali.studybuddy.ui.fragments.MoreFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val tag = "MainActivity"
     private lateinit var binding: ActivityMainBinding
@@ -24,9 +26,9 @@ class MainActivity : AppCompatActivity() {
         setFragment(HomeFragment())
         handleBackPress()
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        /*val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
-        binding.bottomNavigation.setupWithNavController(navController)
+        binding.bottomNavigation.setupWithNavController(navController)*/
 
         // Handle bottom navigation item selection
         binding.bottomNavigation.setOnItemSelectedListener { item ->
