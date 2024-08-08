@@ -21,6 +21,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class SubjectInfoBottomSheet : BottomSheetDialogFragment() {
     private lateinit var binding: SubjectInfoBottomSheetLayoutBinding
     private var subjectId: Long = 0
+    private var day: String? = null
+    private var presentClassesCount: Int = 0
+    private var absentClassesCount: Int = 0
+    private var cancelledClassesCount: Int = 0
+    private var totalClassesCount: Int = 0
+    private var currentAttendance: Int = 0
     private val subjectInfoBottomSheetViewModel: SubjectInfoBottomSheetViewModel by viewModels()
 
     override fun onCreateView(
@@ -33,14 +39,7 @@ class SubjectInfoBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        if (arguments != null) {
-            /// requireArguments().getString(AppConstants.DAY)
-            subjectId = requireArguments().getLong(AppConstants.SUBJECT_ID)
-        } else {
-            showToast("Error: Arguments are missing")
-            dismiss() // Dismiss the bottom sheet if the arguments are null
-        }
+        setDataToViews()
 
         // Get dropdown options
         val languages = resources.getStringArray(R.array.attendance_options)
@@ -66,26 +65,31 @@ class SubjectInfoBottomSheet : BottomSheetDialogFragment() {
             when {
                 value.equals(AppConstants.MARK_PRESENT, ignoreCase = true) -> {
                     // Handle MARK_PRESENT case
-                    Log.d("TEST 1", "onViewCreated: SUBMIT BUTTON CLICKED; VALUE: Mark Present SUBJECT ID : $subjectId")
                     // Trigger the onEvent for 'Mark Present'
                     subjectInfoBottomSheetViewModel.onEvent(SubjectInfoEvents.MarkPresent, subjectId)
                 }
 
                 value.equals(AppConstants.MARK_ABSENT, ignoreCase = true) -> {
                     // Handle MARK_ABSENT case
-                    Log.d("TEST 1", "onViewCreated: SUBMIT BUTTON CLICKED; VALUE: Mark Absent SUBJECT ID : $subjectId")
-
                     // Trigger the onEvent for 'Mark Absent'
                     subjectInfoBottomSheetViewModel.onEvent(SubjectInfoEvents.MarkAbsent, subjectId)
                 }
 
                 value.equals(AppConstants.MARK_CANCELLED, ignoreCase = true) -> {
                     // Handle MARK_CANCELLED case
-                    Log.d("TEST 1", "onViewCreated: SUBMIT BUTTON CLICKED; VALUE: Mark Cancelled SUBJECT ID : $subjectId")
                     // Trigger the onEvent for 'Mark Cancelled'
                     subjectInfoBottomSheetViewModel.onEvent(SubjectInfoEvents.MarkCancelled, subjectId)
                 }
             }
+        }
+    }
+
+    private fun setDataToViews() {
+        binding.apply {
+            countPresentClasses.text = presentClassesCount.toString()
+            countAbsentClasses.text = absentClassesCount.toString()
+            countCancelledClasses.text = cancelledClassesCount.toString()
+            countTotalClasses.text = totalClassesCount.toString()
         }
     }
 
@@ -94,22 +98,22 @@ class SubjectInfoBottomSheet : BottomSheetDialogFragment() {
     }
 
     fun newInstance(
-        /*presentClassesCount: Int,
-        cancelledClassesCount: Int,
-        absentClassesCount: Int,
-        totalClassesCount: Int*/
         subjectId: Long,
-        day: String
+        day: String,
+        presentClassesCount: Int,
+        absentClassesCount: Int,
+        cancelledClassesCount: Int,
+        totalClassesCount: Int,
+        currentAttendance: Int
     ): SubjectInfoBottomSheet {
         val fragment = SubjectInfoBottomSheet()
-        val args = Bundle()
-        /*args.putInt(ARG_PRESENT_CLASSES_COUNT, presentClassesCount)
-        args.putInt(ARG_CANCELLED_CLASSES_COUNT, cancelledClassesCount)
-        args.putInt(ARG_ABSENT_CLASSES_COUNT, absentClassesCount)
-        args.putInt(ARG_TOTAL_CLASSES_COUNT, totalClassesCount)*/
-        args.putString(AppConstants.DAY, day)
-        args.putLong(AppConstants.SUBJECT_ID, subjectId)
-        fragment.arguments = args
+        fragment.subjectId = subjectId
+        fragment.day = day
+        fragment.presentClassesCount = presentClassesCount
+        fragment.absentClassesCount = absentClassesCount
+        fragment.cancelledClassesCount = cancelledClassesCount
+        fragment.totalClassesCount = totalClassesCount
+        fragment.currentAttendance = currentAttendance
         return fragment
     }
 }

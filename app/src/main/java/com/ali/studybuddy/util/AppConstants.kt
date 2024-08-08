@@ -13,6 +13,7 @@ object AppConstants {
     const val ARG_CANCELLED_CLASSES_COUNT = "cancelled_class_count"
     const val ARG_ABSENT_CLASSES_COUNT = "absent_class_count"
     const val ARG_TOTAL_CLASSES_COUNT = "total_class_count"
+    const val CURRENT_ATTENDANCE = "current_attendance"
     const val SUBJECT_NAME = "subject_name"
     const val MARK_PRESENT = "mark present"
     const val MARK_ABSENT = "mark absent"

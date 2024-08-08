@@ -25,23 +25,26 @@ class DayAdapter(private val context: Context, private var subjectList: List<Sub
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val subject = subjectList[position]
+        setDataToViews(subject, viewHolder)
+    }
 
+    private fun setDataToViews(subject: SubjectModel, viewHolder: ViewHolder) {
         // Item Views
-        val name: TextView = viewHolder.itemView.findViewById(R.id.subject_name)
-        val classTime: TextView = viewHolder.itemView.findViewById(R.id.subject_time)
+        val nameTv: TextView = viewHolder.itemView.findViewById(R.id.subject_name)
+        val classTimeTv: TextView = viewHolder.itemView.findViewById(R.id.subject_time)
+        val currentAttendanceTv: TextView = viewHolder.itemView.findViewById(R.id.attendance_percentage)
 
-        name.text = subject.subjectName
-        if (subject.timeOfClass != null) {
-            classTime.text = subject.timeOfClass.toString()
-        } else {
-            classTime.text = "Class time not set"
-        }
+        // Subject data
+        val totalClasses = subject.presentCount + subject.absentCount + subject.cancelledCount
+        val currentAttendance = if (totalClasses > 0) (subject.presentCount.toDouble() / totalClasses * 100).toInt() else 0
+
+        nameTv.text = subject.subjectName
+        currentAttendanceTv.text = currentAttendance.toString()
+        classTimeTv.text = if (subject.timeOfClass != null) subject.timeOfClass.toString() else "Class time not set"
 
         viewHolder.itemView.setOnClickListener {
-            clickListener?.onItemClickListener(subject.id, subject.day)
+            clickListener?.onItemClickListener(subject.id, subject.day, subject.presentCount, subject.absentCount, subject.cancelledCount, totalClasses, currentAttendance)
         }
-
-        // More....
     }
 
     fun updateData(newSubjects: List<SubjectModel>) {
@@ -53,5 +56,13 @@ class DayAdapter(private val context: Context, private var subjectList: List<Sub
 }
 
 interface OnItemClickListener {
-    fun onItemClickListener(subjectId: Long, day: String)
+    fun onItemClickListener(
+        subjectId: Long,
+        day: String,
+        presentCount: Int,
+        absentCount: Int,
+        cancelledCount: Int,
+        totalClasses: Int,
+        currentAttendance: Int
+    )
 }

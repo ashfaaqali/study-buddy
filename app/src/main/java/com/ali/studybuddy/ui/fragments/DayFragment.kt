@@ -45,8 +45,16 @@ class DayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         adapter.clickListener = object : OnItemClickListener {
-            override fun onItemClickListener(subjectId: Long, day: String) {
-                val subjectInfoBottomSheet = subjectInfoBottomSheet.newInstance(subjectId, day)
+            override fun onItemClickListener(
+                subjectId: Long,
+                day: String,
+                presentCount: Int,
+                absentCount: Int,
+                cancelledCount: Int,
+                totalClasses: Int,
+                currentAttendance: Int
+            ) {
+                val subjectInfoBottomSheet = subjectInfoBottomSheet.newInstance(subjectId, day, presentCount, absentCount, cancelledCount, totalClasses, currentAttendance)
                 subjectInfoBottomSheet.show(parentFragmentManager, "Tag")
             }
         }
