@@ -22,7 +22,6 @@ class DayFragment : Fragment() {
     private val subjectInfoBottomSheet by lazy {
         SubjectInfoBottomSheet()
     }
-    private val TAG = "DayFragment"
     private lateinit var binding: FragmentDayBinding
     private val viewModel: SubjectViewModel by viewModels()
     private lateinit var adapter: DayAdapter
@@ -62,9 +61,6 @@ class DayFragment : Fragment() {
         sharedViewModel.currentTabTitle.observe(viewLifecycleOwner) { title ->
             viewModel.getSubjectsForDay(title).observe(viewLifecycleOwner) { subjects ->
                 adapter.updateData(subjects)
-                for (i in subjects){
-                    Log.d("DayFragment", "Subject : $i")
-                }
             }
         }
     }
