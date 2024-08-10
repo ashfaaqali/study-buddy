@@ -1,7 +1,6 @@
 package com.ali.studybuddy.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +25,7 @@ class DayFragment : Fragment(), OnBottomSheetDismissListener {
     private lateinit var binding: FragmentDayBinding
     private val viewModel: DayViewModel by viewModels()
     private lateinit var adapter: DayAdapter
+    private val TAG = "DayFragment"
     private lateinit var sharedViewModel: SharedViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
