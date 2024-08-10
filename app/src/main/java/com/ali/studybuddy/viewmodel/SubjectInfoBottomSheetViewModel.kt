@@ -23,12 +23,17 @@ class SubjectInfoBottomSheetViewModel @Inject constructor (
     fun onEvent(event: SubjectInfoEvents, subjectId: Long) {
         viewModelScope.launch {
             val subject = subjectRepository.getSubjectById(subjectId)
-            Log.d("TEST 2", "onEvent: getSubjectById: $subject")
             if (subject != null) {
                 when (event) {
-                    is SubjectInfoEvents.MarkPresent -> incrementPresentCount(subject)
-                    is SubjectInfoEvents.MarkAbsent -> incrementAbsentCount(subject)
-                    is SubjectInfoEvents.MarkCancelled -> incrementCancelledCount(subject)
+                    is SubjectInfoEvents.MarkPresent -> {
+                        incrementPresentCount(subject)
+                    }
+                    is SubjectInfoEvents.MarkAbsent -> {
+                        incrementAbsentCount(subject)
+                    }
+                    is SubjectInfoEvents.MarkCancelled -> {
+                        incrementCancelledCount(subject)
+                    }
                 }
             } else {
                 _actions.value = SubjectInfoActions.ShowToast("Subject not found")
@@ -39,7 +44,6 @@ class SubjectInfoBottomSheetViewModel @Inject constructor (
     // Increment the count of Present classes for a subject
     private fun incrementPresentCount(subject: SubjectModel) {
         viewModelScope.launch {
-            Log.d("TEST TEST 3", "incrementPresentCount $subject")
             subjectRepository.updateSubject(subject.copy(presentCount = subject.presentCount + 1))
             _actions.value = SubjectInfoActions.ShowToast("Marked Present")
         }

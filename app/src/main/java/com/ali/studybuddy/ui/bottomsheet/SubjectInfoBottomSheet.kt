@@ -13,6 +13,8 @@ import com.ali.studybuddy.viewmodel.SubjectInfoActions
 import com.ali.studybuddy.viewmodel.SubjectInfoBottomSheetViewModel
 import com.ali.studybuddy.viewmodel.SubjectInfoEvents
 import com.ali.studybuddy.util.AppConstants
+import com.ali.studybuddy.viewmodel.DayActions
+import com.ali.studybuddy.viewmodel.DayViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,12 +23,14 @@ class SubjectInfoBottomSheet : BottomSheetDialogFragment() {
     private lateinit var binding: SubjectInfoBottomSheetLayoutBinding
     private var subjectId: Long = 0
     private var day: String? = null
+    private val viewModel: DayViewModel by viewModels()
     private var presentClassesCount: Int = 0
     private var absentClassesCount: Int = 0
     private var cancelledClassesCount: Int = 0
     private var totalClassesCount: Int = 0
     private var currentAttendance: Int = 0
     private val subjectInfoBottomSheetViewModel: SubjectInfoBottomSheetViewModel by viewModels()
+    private var dismissListener: OnBottomSheetDismissListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,9 +82,22 @@ class SubjectInfoBottomSheet : BottomSheetDialogFragment() {
                     // Handle MARK_CANCELLED case
                     // Trigger the onEvent for 'Mark Cancelled'
                     subjectInfoBottomSheetViewModel.onEvent(SubjectInfoEvents.MarkCancelled, subjectId)
+
                 }
             }
+            // viewModel.onAction(DayActions.DismissBottomSheet)
+            dismiss()
         }
+    }
+
+    // Call this method to set the listener
+    fun setDismissListener(listener: OnBottomSheetDismissListener) {
+        dismissListener = listener
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dismissListener?.onDismiss() // Notify the fragment when the bottom sheet is dismissed
     }
 
     private fun setDataToViews() {
@@ -96,23 +113,29 @@ class SubjectInfoBottomSheet : BottomSheetDialogFragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    fun newInstance(
-        subjectId: Long,
-        day: String,
-        presentClassesCount: Int,
-        absentClassesCount: Int,
-        cancelledClassesCount: Int,
-        totalClassesCount: Int,
-        currentAttendance: Int
-    ): SubjectInfoBottomSheet {
-        val fragment = SubjectInfoBottomSheet()
-        fragment.subjectId = subjectId
-        fragment.day = day
-        fragment.presentClassesCount = presentClassesCount
-        fragment.absentClassesCount = absentClassesCount
-        fragment.cancelledClassesCount = cancelledClassesCount
-        fragment.totalClassesCount = totalClassesCount
-        fragment.currentAttendance = currentAttendance
-        return fragment
+    companion object {
+        fun newInstance(
+            subjectId: Long,
+            day: String,
+            presentClassesCount: Int,
+            absentClassesCount: Int,
+            cancelledClassesCount: Int,
+            totalClassesCount: Int,
+            currentAttendance: Int
+        ): SubjectInfoBottomSheet {
+            val fragment = SubjectInfoBottomSheet()
+            fragment.subjectId = subjectId
+            fragment.day = day
+            fragment.presentClassesCount = presentClassesCount
+            fragment.absentClassesCount = absentClassesCount
+            fragment.cancelledClassesCount = cancelledClassesCount
+            fragment.totalClassesCount = totalClassesCount
+            fragment.currentAttendance = currentAttendance
+            return fragment
+        }
     }
+}
+
+interface OnBottomSheetDismissListener {
+    fun onDismiss()
 }

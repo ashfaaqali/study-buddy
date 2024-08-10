@@ -83,12 +83,6 @@ class SubjectViewModel @Inject constructor(
         _events.value = AddSubjectEvents.ShowFormattedTime(formattedTime, timeInMillis)
     }
 
-    fun getSubjectsForDay(day: String): LiveData<List<SubjectModel>> {
-        return liveData {
-            emit(subjectRepository.getSubjectsForTheDay(day))
-        }
-    }
-
 }
 
 sealed class AddSubjectEvents {
